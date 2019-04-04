@@ -5,7 +5,8 @@ public class Item extends ItemType{
     boolean isChecked;
     int quantity;
 
-    public Item(String n){
-        super(n);
+    public Item(String iTypeName, String iName){
+        super(iTypeName);
+        name = iName;
     }
 }
