@@ -6,8 +6,36 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <CheckBox
+        android:id="@+id/chk_box"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:duplicateParentState="false" />
+
     <ListView
         android:id="@+id/listOfLists"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/chk_box"
+        android:layout_marginLeft="20dp"
+        android:textSize = "20sp"
+        android:text= "list"
+        android:textStyle="bold" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/addItemButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/listOfLists"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="end|bottom"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="21dp"
+        android:layout_marginBottom="21dp"
+        android:src="@drawable/new_plus"
+        app:backgroundTint="@color/colorPrimary"
+        app:elevation="6dp"
+        app:fabSize="normal" />
 </RelativeLayout>

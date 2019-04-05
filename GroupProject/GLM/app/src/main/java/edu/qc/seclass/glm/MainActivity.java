@@ -1,5 +1,6 @@
 package edu.qc.seclass.glm;
 
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -36,6 +37,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(MainActivity.this, "Selected List: " + addGroceryList.get(position).toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        FloatingActionButton floatingActionButton= findViewById(R.id.addItemButton);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "Add Item!", Toast.LENGTH_SHORT).show();
             }
         });
     }
