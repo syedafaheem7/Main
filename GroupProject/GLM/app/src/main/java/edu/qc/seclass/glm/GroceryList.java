@@ -1,23 +1,13 @@
 package edu.qc.seclass.glm;
 
+import java.util.ArrayList;
+
 public class GroceryList {
     String listName;
-    Boolean isChecked;
+    ArrayList<Item> gList;
 
-    public String getListName() {
-        return listName;
-    }
-
-    public void setListName(String listName) {
-        this.listName = listName;
-    }
-
-    public boolean getSelected() {
-        return isChecked;
-    }
-
-    public void setSelected(boolean selected) {
-        isChecked = selected;
+    public GroceryList(String n, ArrayList<Item> gl ){
+        listName = n;
+        gList = gl;
     }
 }
-
