@@ -6,4 +6,6 @@ public class ItemType {
     public ItemType(String n) {
         name = n;
     }
+
+    public void createNewItem(String n){}
 }

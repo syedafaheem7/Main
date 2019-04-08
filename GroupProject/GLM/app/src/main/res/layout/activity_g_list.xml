@@ -4,18 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".gListActivity">
 
     <ListView
-        android:id="@+id/listOfLists"
+        android:id="@+id/GroceryList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:textSize = "20sp"
-        android:text= "list"
-        android:textStyle="bold"
-        android:clickable="true"/>
-        <!--android:layout_toRightOf="@id/chk_box"-->
+        android:text="list"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/addItemButton"
@@ -32,4 +31,5 @@
         app:backgroundTint="@color/colorPrimary"
         app:elevation="6dp"
         app:fabSize="normal" />
+
 </RelativeLayout>

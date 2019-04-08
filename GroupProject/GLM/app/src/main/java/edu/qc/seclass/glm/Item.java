@@ -9,4 +9,11 @@ public class Item extends ItemType{
         super(iTypeName);
         name = iName;
     }
+
+    public void changeQuantity(int n){
+        quantity = n;
+    }
+
+    public void checkItem(){}
+
 }
