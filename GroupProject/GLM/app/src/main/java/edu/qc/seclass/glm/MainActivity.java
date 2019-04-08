@@ -21,24 +21,31 @@ public class MainActivity extends AppCompatActivity {
 
         listView = findViewById(R.id.listOfLists);
 
-        final ArrayList<String> addGroceryList = new ArrayList<>();
+        ListOfLists mainList = new ListOfLists();
+        mainList.add(new GroceryList("Sample Grocery List 1"));
+        mainList.add(new GroceryList("Sample Grocery List 2"));
 
-        addGroceryList.add("Brachs Grocery List");
-        addGroceryList.add("Seasons Grocery List");
-        addGroceryList.add("Gourmet Glatt Grocery List");
-        addGroceryList.add("Trader Joes Grocery List");
-        addGroceryList.add("Supersol Grocery List");
+        GListViewAdapter myAdapter = new GListViewAdapter(this,R.layout.g_list_view_items, mainList);
+        listView.setAdapter(myAdapter);
 
-
-        ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, addGroceryList);
-        listView.setAdapter(arrayAdapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(MainActivity.this, "Selected List: " + addGroceryList.get(position).toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
+//        final ArrayList<String> addGroceryList = new ArrayList<>();
+//
+//        addGroceryList.add("Brachs Grocery List");
+//        addGroceryList.add("Seasons Grocery List");
+//        addGroceryList.add("Gourmet Glatt Grocery List");
+//        addGroceryList.add("Trader Joes Grocery List");
+//        addGroceryList.add("Supersol Grocery List");
+//
+//
+//        ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, addGroceryList);
+//        listView.setAdapter(arrayAdapter);
+//
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Toast.makeText(MainActivity.this, "Selected List: " + addGroceryList.get(position).toString(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
 //        FloatingActionButton floatingActionButton= findViewById(R.id.addItemButton);
 //        floatingActionButton.setOnClickListener(new View.OnClickListener() {
