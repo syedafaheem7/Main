@@ -2,11 +2,10 @@ package edu.qc.seclass.glm;
 import java.util.ArrayList;
 
 
-public class ListOfLists {
-     ArrayList<GroceryList>  GrLists;
+public class ListOfLists extends ArrayList<GroceryList>{
 
     public ListOfLists(){
-
+        super();
     }
 
     public static void addList(String n){
