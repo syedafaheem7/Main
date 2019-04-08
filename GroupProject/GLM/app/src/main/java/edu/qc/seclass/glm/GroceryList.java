@@ -2,16 +2,16 @@ package edu.qc.seclass.glm;
 
 import java.util.ArrayList;
 
-public class GroceryList {
+public class GroceryList extends ArrayList<Item>{
     String listName;
-    ArrayList<Item> gList;
 
     public GroceryList(String n){
+        super();
         listName = n;
-        ArrayList<Item> gList = new  ArrayList<Item>();
     }
+
     public ArrayList<Item> getGList(){
-        return gList;
+        return this;
     }
 
     public void renameList(String n){
@@ -21,11 +21,11 @@ public class GroceryList {
     public void clearAllChecks(){}
 
     public void removeItem(Item itm){
-        gList.remove(itm);
+        this.remove(itm);
     }
 
     public void addItem(Item itm){
-        gList.add(itm);
+        this.add(itm);
     }
 
     public void clearCompleted(){}
