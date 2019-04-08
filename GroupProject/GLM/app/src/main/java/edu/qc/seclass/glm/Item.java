@@ -16,5 +16,4 @@ public class Item extends ItemType{
 
     public void checkItem(){}
 
-
 }

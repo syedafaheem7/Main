@@ -1,15 +1,14 @@
 package edu.qc.seclass.glm;
 
-//import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.FloatingActionButton;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,32 +26,34 @@ public class MainActivity extends AppCompatActivity {
 
         GListViewAdapter myAdapter = new GListViewAdapter(this,R.layout.g_list_view_items, mainList);
         listView.setAdapter(myAdapter);
+        listView.setClickable(true);
+        listView.setOnItemClickListener(new OnItemClickListener() {
 
-//        final ArrayList<String> addGroceryList = new ArrayList<>();
-//
-//        addGroceryList.add("Brachs Grocery List");
-//        addGroceryList.add("Seasons Grocery List");
-//        addGroceryList.add("Gourmet Glatt Grocery List");
-//        addGroceryList.add("Trader Joes Grocery List");
-//        addGroceryList.add("Supersol Grocery List");
-//
-//
-//        ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, addGroceryList);
-//        listView.setAdapter(arrayAdapter);
-//
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Toast.makeText(MainActivity.this, "Selected List: " + addGroceryList.get(position).toString(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                openGList();
+            }
+        });
 
-//        FloatingActionButton floatingActionButton= findViewById(R.id.addItemButton);
-//        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    Toast.makeText(MainActivity.this, "Add Item!", Toast.LENGTH_SHORT).show();
-//                }
-//        });
+
+        FloatingActionButton floatingActionButton= findViewById(R.id.addItemButton);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+              //     openNameList();
+                    Toast.makeText(MainActivity.this, "Add Grocery List!", Toast.LENGTH_SHORT).show();
+                }
+        });
     }
+    public void openGList(){
+        Intent intent =  new Intent(this, gListActivity.class);
+        startActivity(intent);
+    }
+
+
+//    public void openNameList(){
+//        Intent intent =  new Intent(this, gListActivity.class);
+//        startActivity(intent);
+//    }
+//
+
 }
