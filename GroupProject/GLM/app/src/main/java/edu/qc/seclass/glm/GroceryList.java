@@ -10,8 +10,8 @@ public class GroceryList extends ArrayList<Item>{
         listName = n;
     }
 
-    public ArrayList<Item> getGList(){
-        return this;
+    public String getName(){
+        return listName;
     }
 
     public void renameList(String n){
