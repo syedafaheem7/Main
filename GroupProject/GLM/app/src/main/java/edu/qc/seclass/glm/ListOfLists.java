@@ -8,11 +8,13 @@ public class ListOfLists extends ArrayList<GroceryList>{
         super();
     }
 
-    public static void addList(String n){
-        // call Gl constructer and add to array list
+    public void addList(String n){
+        GroceryList gl = new GroceryList(n);
+        this.add(gl);
     }
 
-    public static void removeList(ArrayList<GroceryList> gl){
+    public void removeList(ArrayList<GroceryList> gl){
+        this.remove(gl);
 
     }
 
