@@ -4,10 +4,14 @@ import java.util.ArrayList;
 
 public class GroceryList {
     String listName;
+    ArrayList<Item> gList;
 
     public GroceryList(String n){
         listName = n;
         ArrayList<Item> gList = new  ArrayList<Item>();
+    }
+    public ArrayList<Item> getGList(){
+        return gList;
     }
 
     public void renameList(String n){
