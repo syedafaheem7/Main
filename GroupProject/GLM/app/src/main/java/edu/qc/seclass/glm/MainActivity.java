@@ -18,8 +18,7 @@ import android.widget.GridView;
 public class MainActivity extends AppCompatActivity {
 
     private GridView gridView;
-    private ListOfListArrayAdapter ListofListstoViewAdapter;
-    ListOfLists mainList = new ListOfLists();
+    ListOfLists mainList;
     final Context context = this;
 
     @Override
@@ -29,10 +28,10 @@ public class MainActivity extends AppCompatActivity {
 
         gridView = findViewById(R.id.listOfLists);
 
+        mainList = new ListOfLists();
 
-
-        ListofListstoViewAdapter= new ListOfListArrayAdapter(context, mainList);
-        gridView.setAdapter(ListofListstoViewAdapter);
+        final ListOfListArrayAdapter listofListstoViewAdapter= new ListOfListArrayAdapter(context, mainList);
+        gridView.setAdapter(listofListstoViewAdapter);
 //        gridView.setClickable(true);
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -47,14 +46,14 @@ public class MainActivity extends AppCompatActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    addList(ListofListstoViewAdapter);
-                    ListofListstoViewAdapter.notifyDataSetChanged();
+                    addList(listofListstoViewAdapter);
+                    listofListstoViewAdapter.notifyDataSetChanged();
                 }
         });
     }
     public void openGList(int position){
         Intent intent =  new Intent(this, gListActivity.class);
-        intent.putExtra("Grocery List", mainList.get(position));
+        intent.putExtra("Grocery List", (Parcelable) mainList.get(position));
         startActivity(intent);
     }
 

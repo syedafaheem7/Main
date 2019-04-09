@@ -15,8 +15,8 @@ public class GroceryListArrayAdapter extends ArrayAdapter<Item> {
 
     ArrayList<Item> items = new ArrayList<>();
 
-    public GroceryListArrayAdapter(Context context, int textViewResourceId, ArrayList<Item> items) {
-        super(context, textViewResourceId, items);
+    public GroceryListArrayAdapter(Context context, GroceryList items) {
+        super(context, R.layout.grocery_list_items_view, items);
         this.items = items;
     }
 
@@ -35,6 +35,7 @@ public class GroceryListArrayAdapter extends ArrayAdapter<Item> {
         TextView textView = (TextView) v.findViewById(R.id.textView);
         CheckBox checkBoxView = (CheckBox) v.findViewById(R.id.chk_box);
         textView.setText(items.get(position).getName());
+        checkBoxView.setActivated(items.get(position).isChecked);
         return v;
 
     }
