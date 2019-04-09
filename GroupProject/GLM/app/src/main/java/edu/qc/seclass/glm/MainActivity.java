@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                System.out.print("psarent" + parent+ "view"+ view + "p" + position + "id"+id);
                 openGList();
             }
         });
