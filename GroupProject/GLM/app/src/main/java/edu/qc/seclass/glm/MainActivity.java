@@ -5,42 +5,40 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.ListView;
-import android.widget.Toast;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    GridView listView;
+    private GridView gridView;
+    private ListOfListArrayAdapter ListofListstoViewAdapter;
     ListOfLists mainList = new ListOfLists();
     final Context context = this;
-    private EditText result;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        listView = findViewById(R.id.listOfLists);
+        gridView = findViewById(R.id.listOfLists);
 
 
-        final GListViewAdapter myAdapter = new GListViewAdapter(this,R.layout.g_list_view_items, mainList);
-        listView.setAdapter(myAdapter);
-        listView.setClickable(true);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        ListofListstoViewAdapter= new ListOfListArrayAdapter(context, mainList);
+        gridView.setAdapter(ListofListstoViewAdapter);
+//        gridView.setClickable(true);
+
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                openGList();
+                openGList(position);
             }
         });
 
@@ -49,17 +47,18 @@ public class MainActivity extends AppCompatActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    addList(myAdapter);
-                    myAdapter.notifyDataSetChanged();
+                    addList(ListofListstoViewAdapter);
+                    ListofListstoViewAdapter.notifyDataSetChanged();
                 }
         });
     }
-    public void openGList(){
+    public void openGList(int position){
         Intent intent =  new Intent(this, gListActivity.class);
+        intent.putExtra("Grocery List", mainList.get(position));
         startActivity(intent);
     }
 
-    public void addList(final GListViewAdapter myAdapter){
+    public void addList(final ListOfListArrayAdapter myAdapter){
         LayoutInflater li = LayoutInflater.from(context);
         View promptsView = li.inflate(R.layout.g_list_name_prompt, null);
 

@@ -10,6 +10,10 @@ public class Item extends ItemType{
         name = iName;
     }
 
+    public String getName(){
+        return name;
+    }
+
     public void changeQuantity(int n){
         quantity = n;
     }
