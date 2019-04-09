@@ -6,15 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <ListView
+    <GridView
         android:id="@+id/listOfLists"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:textSize = "20sp"
-        android:text= "list"
+        android:clickable="true"
+        android:text="list"
+        android:textSize="20sp"
         android:textStyle="bold"
-        android:clickable="true"/>
+        android:translationZ="4dp" />
         <!--android:layout_toRightOf="@id/chk_box"-->
 
     <android.support.design.widget.FloatingActionButton
@@ -28,7 +29,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="21dp"
         android:layout_marginBottom="21dp"
-        android:srcCompat="@drawable/new_plus"
+        android:src="@drawable/new_plus"
         app:backgroundTint="@color/colorPrimary"
         app:elevation="6dp"
         app:fabSize="normal" />

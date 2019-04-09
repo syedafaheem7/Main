@@ -1,21 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="horizontal">
 
-    <CheckBox
-    android:id="@+id/chk_box"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:clickable="true"
-    android:duplicateParentState="false" />
+    <!--<CheckBox-->
+    <!--android:id="@+id/chk_box"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:clickable="true"-->
+    <!--android:duplicateParentState="false" />-->
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerInParent="true"
+        android:padding="5dp"
+        android:scaleType="fitXY"/>
+
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Demo"
-        android:textColor="#000" />
-</LinearLayout>
+        android:layout_centerInParent="true"
+        android:layout_alignBottom="@id/imageView"
+        android:layout_alignTop="@id/imageView"
+        android:layout_alignLeft="@id/imageView"
+        android:layout_alignRight="@id/imageView"
+        android:padding="5dp"
+        android:gravity="center"
+        android:textColor="#fffafa" />
+
+</RelativeLayout>
