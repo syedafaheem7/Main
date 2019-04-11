@@ -28,6 +28,8 @@ public class gListActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         gList = intent.getParcelableExtra("Grocery List");
+        setTitle(gList.listName);
+
 
         groceryListView = findViewById(R.id.GroceryList);
 
