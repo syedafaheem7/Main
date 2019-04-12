@@ -1,5 +1,6 @@
 package edu.qc.seclass.glm;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -19,16 +22,31 @@ public class gListActivity extends AppCompatActivity {
 
     ListView groceryListView;
     GroceryList gList;
+    ListOfLists mainList;
+    int position;
     final Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_g_list);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
+
+
 
         Intent intent = getIntent();
-        gList = intent.getParcelableExtra("Grocery List");
+       gList = intent.getParcelableExtra("Glist");
+       // mainList = intent.getParcelableExtra("MainList");
+        position = intent.getIntExtra("Position", 0);
         setTitle(gList.listName);
+
+        if((savedInstanceState != null) &&
+                (savedInstanceState.getSerializable(gList.getName()) != null)){
+            gList = (GroceryList) savedInstanceState.getSerializable(gList.getName());
+        }
+
+
 
 
         groceryListView = findViewById(R.id.GroceryList);
@@ -68,6 +86,9 @@ public class gListActivity extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 myAdapter.add(new Item("Sample Type", userInput.getText().toString()));
+                              //  mainList.get(position).addItem(new Item("Sample Type", userInput.getText().toString()));
+                             //   Log.d("NLL", mainList.toString());
+
                             }
                         })
                 .setNegativeButton("Cancel",
@@ -82,7 +103,11 @@ public class gListActivity extends AppCompatActivity {
 
         // show it
         alertDialog.show();
+    }
+    
 
-
+    protected void onSaveInstanceState(Bundle state){
+        super.onSaveInstanceState(state);
+        state.putSerializable(gList.getName(), gList);
     }
 }
