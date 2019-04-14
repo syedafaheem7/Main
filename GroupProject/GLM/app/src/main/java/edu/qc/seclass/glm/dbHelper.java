@@ -3,8 +3,10 @@ package edu.qc.seclass.glm;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.MatrixCursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -12,6 +14,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.sql.Blob;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class dbHelper extends SQLiteOpenHelper {
 
@@ -20,7 +24,7 @@ public class dbHelper extends SQLiteOpenHelper {
     private static final String TABLE_NAME ="ListsofLists";
     private static final String GL_ID="GL_ID";
 //    private static final String GL_NAME="GL_NAME";
-    private static final String GL_DATA="DATA_ID";
+    private static final String GL_DATA="DATA";
 
 
 
@@ -35,7 +39,7 @@ public class dbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createTable = "CREATE TABLE "+TABLE_NAME + " ("+GL_ID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+GL_DATA+" BLOB);";
+        String createTable = "CREATE TABLE "+TABLE_NAME + " ("+GL_ID+" INTEGER PRIMARY KEY, "+GL_DATA+" BLOB);";
         db.execSQL(createTable);
     }
 
@@ -43,6 +47,14 @@ public class dbHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
+    }
+
+    public void update(ListOfLists l){
+        byte[] lolB = makeByte(l);
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(dbHelper.GL_DATA, lolB);
+        db.update(TABLE_NAME, cv, GL_ID + "=2", null);
     }
 
     public byte[] makeByte(ListOfLists gl){
@@ -78,14 +90,14 @@ public class dbHelper extends SQLiteOpenHelper {
         return null;
     }
 
-    public long insertData(String name, ListOfLists gl){
+    public void insertData(ListOfLists gl){
       byte[] data = makeByte(gl);
        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cvs = new ContentValues();
-      cvs.put(dbHelper.TABLE_NAME,  name);
+        //cvs.put(dbHelper.TABLE_NAME,  name);
+        cvs.put(dbHelper.GL_ID, 2);
         cvs.put(dbHelper.GL_DATA, data);
-        long id = db.insert(dbHelper.TABLE_NAME, null, cvs);
-        return id;
+        db.insert(dbHelper.TABLE_NAME, null, cvs);
     }
 
     public ListOfLists getData(){
@@ -100,5 +112,42 @@ public class dbHelper extends SQLiteOpenHelper {
         return lol;
     }
 
+    public ArrayList<Cursor> getData(String Query){
+        //get writable database
+        SQLiteDatabase sqlDB = this.getWritableDatabase();
+        String[] columns = new String[] { "message" };
+        //an array list of cursor to save two cursors one has results from the query
+        //other cursor stores error message if any errors are triggered
+        ArrayList<Cursor> alc = new ArrayList<Cursor>(2);
+        MatrixCursor Cursor2= new MatrixCursor(columns);
+        alc.add(null);
+        alc.add(null);
+
+        try{
+            String maxQuery = Query ;
+            //execute the query results will be save in Cursor c
+            Cursor c = sqlDB.rawQuery(maxQuery, null);
+
+            //add value to cursor2
+            Cursor2.addRow(new Object[] { "Success" });
+
+            alc.set(1,Cursor2);
+            if (null != c && c.getCount() > 0) {
+
+                alc.set(0,c);
+                c.moveToFirst();
+
+                return alc ;
+            }
+            return alc;
+        } catch(Exception ex){
+            Log.d("printing exception", ex.getMessage());
+
+            //if any exceptions are triggered save the error message to cursor an return the arraylist
+            Cursor2.addRow(new Object[] { ""+ex.getMessage() });
+            alc.set(1,Cursor2);
+            return alc;
+        }
+    }
 
 }

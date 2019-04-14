@@ -1,6 +1,7 @@
 package edu.qc.seclass.glm;
 
 //import android.support.design.widget.FloatingActionButton;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,15 +10,18 @@ import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 
 public class MainActivity extends AppCompatActivity {
 
     private GridView gridView;
+    private dbHelper db;
     ListOfLists mainList;
     final Context context = this;
 
@@ -27,8 +31,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         gridView = findViewById(R.id.listOfLists);
-
-        mainList = new ListOfLists();
+        db = new dbHelper(context);
+        mainList = db.getData();
+        if(mainList == null) mainList = new ListOfLists();
 
         final ListOfListArrayAdapter listofListstoViewAdapter= new ListOfListArrayAdapter(context, mainList);
         gridView.setAdapter(listofListstoViewAdapter);
@@ -41,6 +46,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        FloatingActionButton dbfloatingActionButton= findViewById(R.id.showDB);
+        dbfloatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent dbmanager = new Intent(context, AndroidDatabaseManager.class);
+                startActivity(dbmanager);
+            }
+        });
+
 
         FloatingActionButton floatingActionButton= findViewById(R.id.addItemButton);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -48,12 +62,15 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     addList(listofListstoViewAdapter);
                     listofListstoViewAdapter.notifyDataSetChanged();
+
                 }
         });
     }
     public void openGList(int position){
         Intent intent =  new Intent(this, gListActivity.class);
-        intent.putExtra("Grocery List", (Parcelable) mainList.get(position));
+        intent.putExtra("Glist", (Parcelable) mainList.get(position));
+        intent.putExtra("MainList", (Parcelable) mainList);
+        intent.putExtra("Position", position);
         startActivity(intent);
     }
 
@@ -76,6 +93,8 @@ public class MainActivity extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 myAdapter.add(new GroceryList(userInput.getText().toString()));
+                                if(mainList.size() == 1) db.insertData(mainList);
+                                else db.update(mainList);
                             }
                         })
                 .setNegativeButton("Cancel",
