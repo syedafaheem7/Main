@@ -65,7 +65,18 @@ public class MainActivity extends AppCompatActivity {
 
                 }
         });
+
+        FloatingActionButton fab= findViewById(R.id.deleteItemButton);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
+
+
+
     public void openGList(int position){
         Intent intent =  new Intent(this, gListActivity.class);
 //        intent.putExtra("Glist", (Parcelable) mainList.get(position));

@@ -62,6 +62,14 @@ public class gListActivity extends AppCompatActivity {
                 myAdapter.notifyDataSetChanged();
             }
         });
+
+        FloatingActionButton fab= findViewById(R.id.deleteItemButton);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     public void addList(final GroceryListArrayAdapter myAdapter){
