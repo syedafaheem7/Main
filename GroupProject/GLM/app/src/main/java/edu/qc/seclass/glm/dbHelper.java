@@ -79,7 +79,6 @@ public class dbHelper extends SQLiteOpenHelper {
                 ByteArrayInputStream bais = new ByteArrayInputStream(glByte);
                 ObjectInputStream ois = new ObjectInputStream(bais);
                 ListOfLists gl = (ListOfLists) ois.readObject();
-
                 return gl;
             } catch(IOException e){
                 e.printStackTrace();

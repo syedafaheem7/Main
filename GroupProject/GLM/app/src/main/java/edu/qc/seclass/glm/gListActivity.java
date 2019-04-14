@@ -22,6 +22,7 @@ public class gListActivity extends AppCompatActivity {
 
     ListView groceryListView;
     GroceryList gList;
+    dbHelper db;
     ListOfLists mainList;
     int position;
     final Context context = this;
@@ -31,16 +32,12 @@ public class gListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_g_list);
         getSupportActionBar().setHomeButtonEnabled(true);
-
-
-
-
+        db = new dbHelper(context);
+        mainList = db.getData();
+        for(GroceryList gl:mainList)Log.d("List", gl.getName());
         Intent intent = getIntent();
-       gList = intent.getParcelableExtra("Glist");
-       // mainList = intent.getParcelableExtra("MainList");
-        position = intent.getIntExtra("Position", 0);
+        gList = intent.getParcelableExtra("Glist");
         setTitle(gList.listName);
-
         if((savedInstanceState != null) &&
                 (savedInstanceState.getSerializable(gList.getName()) != null)){
             gList = (GroceryList) savedInstanceState.getSerializable(gList.getName());

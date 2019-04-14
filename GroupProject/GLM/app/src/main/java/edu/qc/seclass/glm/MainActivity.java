@@ -69,8 +69,6 @@ public class MainActivity extends AppCompatActivity {
     public void openGList(int position){
         Intent intent =  new Intent(this, gListActivity.class);
         intent.putExtra("Glist", (Parcelable) mainList.get(position));
-        intent.putExtra("MainList", (Parcelable) mainList);
-        intent.putExtra("Position", position);
         startActivity(intent);
     }
 

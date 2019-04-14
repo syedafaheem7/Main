@@ -1,7 +1,5 @@
 package edu.qc.seclass.glm;
 import android.content.Context;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,26 +10,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 
-public class ListOfLists extends ArrayList<GroceryList> implements Parcelable {
+public class ListOfLists extends ArrayList<GroceryList>{
 
     public ListOfLists(){
         super();
     }
-
-    protected ListOfLists(Parcel in) {
-    }
-
-    public static final Creator<ListOfLists> CREATOR = new Creator<ListOfLists>() {
-        @Override
-        public ListOfLists createFromParcel(Parcel in) {
-            return new ListOfLists(in);
-        }
-
-        @Override
-        public ListOfLists[] newArray(int size) {
-            return new ListOfLists[size];
-        }
-    };
 
     public void addList(String n){
         GroceryList gl = new GroceryList(n);
@@ -45,15 +28,6 @@ public class ListOfLists extends ArrayList<GroceryList> implements Parcelable {
 
     public static void selectList(ArrayList<GroceryList> gl){
 
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
     }
 
 //
