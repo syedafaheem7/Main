@@ -68,7 +68,8 @@ public class MainActivity extends AppCompatActivity {
     }
     public void openGList(int position){
         Intent intent =  new Intent(this, gListActivity.class);
-        intent.putExtra("Glist", (Parcelable) mainList.get(position));
+//        intent.putExtra("Glist", (Parcelable) mainList.get(position));
+        intent.putExtra("Position", position);
         startActivity(intent);
     }
 
@@ -90,7 +91,9 @@ public class MainActivity extends AppCompatActivity {
                 .setPositiveButton("OK",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                myAdapter.add(new GroceryList(userInput.getText().toString()));
+                                GroceryList temp = new GroceryList(userInput.getText().toString());
+//                                temp.addItem(new Item("Type", "Item"));
+                                myAdapter.add(temp);
                                 if(mainList.size() == 1) db.insertData(mainList);
                                 else db.update(mainList);
                             }

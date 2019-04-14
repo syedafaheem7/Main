@@ -13,6 +13,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -23,8 +24,10 @@ public class dbHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME="GroceryDB";
     private static final String TABLE_NAME ="ListsofLists";
     private static final String GL_ID="GL_ID";
-//    private static final String GL_NAME="GL_NAME";
     private static final String GL_DATA="DATA";
+    private static final String ITEM_TYPE_TABLE_NAME ="ItemType";
+    private static final String IT_ID="ITEM_TYPE_ID";
+    private static final String IT_NAME="ITEM_TYPE_NAME";
 
 
 
@@ -41,11 +44,39 @@ public class dbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String createTable = "CREATE TABLE "+TABLE_NAME + " ("+GL_ID+" INTEGER PRIMARY KEY, "+GL_DATA+" BLOB);";
         db.execSQL(createTable);
+        createTable = "CREATE TABLE "+ITEM_TYPE_TABLE_NAME + " ("+IT_ID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+IT_NAME+" VARCHAR(250));";
+        db.execSQL(createTable);
+        ContentValues cv = new ContentValues();
+        cv.put(dbHelper.IT_NAME, "Beverages");
+        db.insert(ITEM_TYPE_TABLE_NAME, null, cv);
+        cv.put(dbHelper.IT_NAME, "Bread/Bakery");
+        db.insert(ITEM_TYPE_TABLE_NAME, null, cv);
+        cv.put(dbHelper.IT_NAME, "Canned/Jarred Goods");
+        db.insert(ITEM_TYPE_TABLE_NAME, null, cv);
+        cv.put(dbHelper.IT_NAME, "Dairy");
+        db.insert(ITEM_TYPE_TABLE_NAME, null, cv);
+        cv.put(dbHelper.IT_NAME, "Dry/Baking Goods");
+        db.insert(ITEM_TYPE_TABLE_NAME, null, cv);
+        cv.put(dbHelper.IT_NAME, "Frozen Foods");
+        db.insert(ITEM_TYPE_TABLE_NAME, null, cv);
+        cv.put(dbHelper.IT_NAME, "Meat");
+        db.insert(ITEM_TYPE_TABLE_NAME, null, cv);
+        cv.put(dbHelper.IT_NAME, "Produce");
+        db.insert(ITEM_TYPE_TABLE_NAME, null, cv);
+        cv.put(dbHelper.IT_NAME, "Cleaners");
+        db.insert(ITEM_TYPE_TABLE_NAME, null, cv);
+        cv.put(dbHelper.IT_NAME, "Paper Goods ");
+        db.insert(ITEM_TYPE_TABLE_NAME, null, cv);
+        cv.put(dbHelper.IT_NAME, "Personal Care");
+        db.insert(ITEM_TYPE_TABLE_NAME, null, cv);
+
+
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + ITEM_TYPE_TABLE_NAME);
         onCreate(db);
     }
 
@@ -109,6 +140,17 @@ public class dbHelper extends SQLiteOpenHelper {
             lol = getByte(lolBytes);
         }
         return lol;
+    }
+
+    public ArrayList<String> getItems(){
+        ArrayList<String> items = new ArrayList<String>();
+        String[] glData = {dbHelper.IT_NAME};
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor data  = db.query(true, dbHelper.ITEM_TYPE_TABLE_NAME, glData, null, null, null, null, null, null, null);
+        while(data.moveToNext()){
+            items.add(data.getString(data.getColumnIndex(dbHelper.IT_NAME)));
+        }
+        return items;
     }
 
     public ArrayList<Cursor> getData(String Query){

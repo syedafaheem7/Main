@@ -26,6 +26,10 @@ public class ListOfLists extends ArrayList<GroceryList>{
 
     }
 
+    public void  removeGroceryList(int gl){
+        this.remove(gl);
+    }
+
     public static void selectList(ArrayList<GroceryList> gl){
 
     }

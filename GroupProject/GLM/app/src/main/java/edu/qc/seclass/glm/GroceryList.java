@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 
-public class GroceryList extends ArrayList<Item> implements Parcelable {
+public class GroceryList extends ArrayList<Item>{
     String listName;
 
     public GroceryList(String n){
@@ -13,21 +13,21 @@ public class GroceryList extends ArrayList<Item> implements Parcelable {
         listName = n;
     }
 
-    protected GroceryList(Parcel in) {
-        listName = in.readString();
-    }
-
-    public static final Creator<GroceryList> CREATOR = new Creator<GroceryList>() {
-        @Override
-        public GroceryList createFromParcel(Parcel in) {
-            return new GroceryList(in);
-        }
-
-        @Override
-        public GroceryList[] newArray(int size) {
-            return new GroceryList[size];
-        }
-    };
+//    protected GroceryList(Parcel in) {
+//        listName = in.readString();
+//    }
+//
+//    public static final Creator<GroceryList> CREATOR = new Creator<GroceryList>() {
+//        @Override
+//        public GroceryList createFromParcel(Parcel in) {
+//            return new GroceryList(in);
+//        }
+//
+//        @Override
+//        public GroceryList[] newArray(int size) {
+//            return new GroceryList[size];
+//        }
+//    };
 
     public String getName(){
         return listName;
@@ -50,13 +50,13 @@ public class GroceryList extends ArrayList<Item> implements Parcelable {
     public void clearCompleted(){}
 
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(listName);
-    }
+//    @Override
+//    public int describeContents() {
+//        return 0;
+//    }
+//
+//    @Override
+//    public void writeToParcel(Parcel dest, int flags) {
+//        dest.writeString(listName);
+//    }
 }

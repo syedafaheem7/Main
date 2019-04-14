@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import edu.qc.seclass.glm.dbHelper;
 
 public class gListActivity extends AppCompatActivity {
 
@@ -32,19 +33,18 @@ public class gListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_g_list);
         getSupportActionBar().setHomeButtonEnabled(true);
-        db = new dbHelper(context);
+        db = new dbHelper(this);
         mainList = db.getData();
         for(GroceryList gl:mainList)Log.d("List", gl.getName());
         Intent intent = getIntent();
-        gList = intent.getParcelableExtra("Glist");
+//        gList = intent.getParcelableExtra("Glist");
+        position = intent.getIntExtra("Position", 0);
+        gList = mainList.get(position);
         setTitle(gList.listName);
-        if((savedInstanceState != null) &&
-                (savedInstanceState.getSerializable(gList.getName()) != null)){
-            gList = (GroceryList) savedInstanceState.getSerializable(gList.getName());
-        }
-
-
-
+//        if((savedInstanceState != null) &&
+//                (savedInstanceState.getSerializable(gList.getName()) != null)){
+//            gList = (GroceryList) savedInstanceState.getSerializable(gList.getName());
+//        }
 
         groceryListView = findViewById(R.id.GroceryList);
 
@@ -83,8 +83,9 @@ public class gListActivity extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 myAdapter.add(new Item("Sample Type", userInput.getText().toString()));
-                              //  mainList.get(position).addItem(new Item("Sample Type", userInput.getText().toString()));
-                             //   Log.d("NLL", mainList.toString());
+                                mainList.removeGroceryList(position);
+                                mainList.add(position, gList);
+                                db.update(mainList);
 
                             }
                         })
