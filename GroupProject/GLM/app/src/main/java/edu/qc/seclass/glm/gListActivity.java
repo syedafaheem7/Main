@@ -1,12 +1,12 @@
 package edu.qc.seclass.glm;
 
-import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Debug;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +15,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
 import edu.qc.seclass.glm.dbHelper;
@@ -32,7 +34,10 @@ public class gListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_g_list);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setCustomView(R.layout.action_bar);
+        actionBar.setDisplayOptions(R.layout.action_bar);
+        actionBar.setHomeButtonEnabled(true);
         db = new dbHelper(this);
         mainList = db.getData();
         for(GroceryList gl:mainList)Log.d("List", gl.getName());
@@ -41,6 +46,7 @@ public class gListActivity extends AppCompatActivity {
         position = intent.getIntExtra("Position", 0);
         gList = mainList.get(position);
         setTitle(gList.listName);
+
 //        if((savedInstanceState != null) &&
 //                (savedInstanceState.getSerializable(gList.getName()) != null)){
 //            gList = (GroceryList) savedInstanceState.getSerializable(gList.getName());
@@ -51,8 +57,7 @@ public class gListActivity extends AppCompatActivity {
         final GroceryListArrayAdapter myAdapter = new GroceryListArrayAdapter(this, gList);
         groceryListView.setAdapter(myAdapter);
         groceryListView.setClickable(true);
-
-        myAdapter.notifyDataSetChanged();
+            myAdapter.notifyDataSetChanged();
 
         FloatingActionButton floatingActionButton= findViewById(R.id.addItemButton);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -68,6 +73,22 @@ public class gListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+            }
+        });
+
+        CheckBox mCheckbox = (CheckBox) actionBar.getCustomView().findViewById(R.id.check_all);
+        mCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    for(Item i: gList){
+                        i.isChecked= true;
+                        groceryListView.setItemChecked(myAdapter.getPosition(i), true);
+                        myAdapter.notifyDataSetChanged();
+
+
+                    }
+                }
             }
         });
     }
