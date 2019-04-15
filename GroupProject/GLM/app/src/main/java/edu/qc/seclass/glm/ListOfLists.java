@@ -10,66 +10,27 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 
-public class ListOfLists extends ArrayList<GroceryList>{
+public class ListOfLists extends ArrayList<GroceryList> {
 
-    public ListOfLists(){
+    public ListOfLists() {
         super();
     }
 
-    public void addList(String n){
+    public void addList(String n) {
         GroceryList gl = new GroceryList(n);
         this.add(gl);
     }
 
-    public void removeList(ArrayList<GroceryList> gl){
+    public void removeList(ArrayList<GroceryList> gl) {
         this.remove(gl);
 
     }
 
-    public void  removeGroceryList(int gl){
+    public void removeGroceryList(int gl) {
         this.remove(gl);
     }
 
-    public static void selectList(ArrayList<GroceryList> gl){
+    public static void selectList(ArrayList<GroceryList> gl) {
 
     }
-
-//
-//    public static class ItemListAdapter {
-//
-//
-////        public class GListViewAdapter extends ArrayAdapter<GroceryList> {
-////
-////            ArrayList<GroceryList> mainList = new ArrayList<>();
-////
-////            public GListViewAdapter(Context context, int textViewResourceId, ArrayList<GroceryList> mainList) {
-////                super(context, textViewResourceId, mainList);
-////                this.mainList = mainList;
-////            }
-////
-////            @Override
-////            public int getCount() {
-////                return super.getCount();
-////            }
-////
-////
-////            @Override
-////            public View getView(int position, View convertView, ViewGroup parent) {
-////
-////                View v = convertView;
-////                LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-////                v = inflater.inflate(R.layout.list_of_lists_items_view, null);
-////                TextView textView = (TextView) v.findViewById(R.id.textView);
-////                ImageView imageView = (ImageView) v.findViewById(R.id.imageView);
-////    //        CheckBox imageView = (CheckBox) v.findViewById(R.id.chk_box);
-////                textView.setText(mainList.get(position).getName());
-////                imageView.setImageResource(R.mipmap.gridimage);
-////                return v;
-////
-////            }
-////
-////        }
-////
-////
-////    }
 }

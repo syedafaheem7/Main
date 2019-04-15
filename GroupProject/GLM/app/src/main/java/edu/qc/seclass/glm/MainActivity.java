@@ -103,10 +103,10 @@ public class MainActivity extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 GroceryList temp = new GroceryList(userInput.getText().toString());
-//                                temp.addItem(new Item("Type", "Item"));
                                 myAdapter.add(temp);
                                 if(mainList.size() == 1) db.insertData(mainList);
                                 else db.update(mainList);
+//                                openGList(myAdapter.getPosition(temp));
                             }
                         })
                 .setNegativeButton("Cancel",
@@ -125,18 +125,4 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-//    public void openNameList(){
-//        Intent intent =  new Intent(this, gListActivity.class);
-//        startActivity(intent);
-//    }
-//
-
-//        FloatingActionButton floatingActionButton= findViewById(R.id.addItemButton);
-//        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    Toast.makeText(MainActivity.this, "Add Item!", Toast.LENGTH_SHORT).show();
-//                }
-//        });
     }

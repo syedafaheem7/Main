@@ -19,6 +19,9 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
+
+import java.util.Iterator;
+
 import edu.qc.seclass.glm.dbHelper;
 
 public class gListActivity extends AppCompatActivity {
@@ -68,10 +71,12 @@ public class gListActivity extends AppCompatActivity {
             }
         });
 
-        FloatingActionButton fab= findViewById(R.id.deleteItemButton);
-        fab.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton delete= findViewById(R.id.deleteItemButton);
+        delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                removeList(myAdapter);
+                myAdapter.notifyDataSetChanged();
 
             }
         });
@@ -131,10 +136,47 @@ public class gListActivity extends AppCompatActivity {
         // show it
         alertDialog.show();
     }
-    
 
-    protected void onSaveInstanceState(Bundle state){
-        super.onSaveInstanceState(state);
-        state.putSerializable(gList.getName(), gList);
+
+    public void removeList(final GroceryListArrayAdapter myAdapter){
+        LayoutInflater li = LayoutInflater.from(context);
+        View promptsView = li.inflate(R.layout.remove_item_prompt, null);
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                context);
+
+        // set prompts.xml to alertdialog builder
+        alertDialogBuilder.setView(promptsView);
+
+        alertDialogBuilder
+                .setCancelable(false)
+                .setPositiveButton("OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                for (Iterator<Item> iterator = gList.iterator(); iterator.hasNext(); ) {
+                                    Item value = iterator.next();
+                                    if (value.isChecked == true) {
+                                        iterator.remove();
+                                        myAdapter.notifyDataSetChanged();
+                                    }
+                                }
+                                mainList.removeGroceryList(position);
+                                mainList.add(position, gList);
+                                db.update(mainList);
+                            }
+    })
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                dialog.cancel();
+                            }
+                        });
+        // create alert dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
+
     }
+
 }
