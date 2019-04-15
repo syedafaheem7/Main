@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class GroceryList extends ArrayList<Item>{
     String listName;
-
+    boolean isChecked;
     public GroceryList(String n){
         super();
         listName = n;

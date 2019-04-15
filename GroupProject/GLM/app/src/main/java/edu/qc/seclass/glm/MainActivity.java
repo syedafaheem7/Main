@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +18,8 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+
+import java.util.Iterator;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,13 +34,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         gridView = findViewById(R.id.listOfLists);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setCustomView(R.layout.action_bar);
+        actionBar.setDisplayOptions(R.layout.action_bar);
+        actionBar.setDisplayHomeAsUpEnabled(false);
         db = new dbHelper(context);
         mainList = db.getData();
         if(mainList == null) mainList = new ListOfLists();
 
         final ListOfListArrayAdapter listofListstoViewAdapter= new ListOfListArrayAdapter(context, mainList);
         gridView.setAdapter(listofListstoViewAdapter);
-//        gridView.setClickable(true);
+       gridView.setClickable(true);
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -70,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                removeList(listofListstoViewAdapter);
 
             }
         });
@@ -122,6 +130,47 @@ public class MainActivity extends AppCompatActivity {
         // show it
         alertDialog.show();
 
+
+    }
+
+
+    public void removeList(final ListOfListArrayAdapter myAdapter){
+        LayoutInflater li = LayoutInflater.from(context);
+        View promptsView = li.inflate(R.layout.remove_item_prompt, null);
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                context);
+
+        // set prompts.xml to alertdialog builder
+        alertDialogBuilder.setView(promptsView);
+
+        alertDialogBuilder
+                .setCancelable(false)
+                .setPositiveButton("OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                for (Iterator<GroceryList> iterator = mainList.iterator(); iterator.hasNext(); ) {
+                                    GroceryList value = iterator.next();
+                                    if (value.isChecked == true) {
+                                        iterator.remove();
+                                        myAdapter.notifyDataSetChanged();
+                                    }
+                                }
+                                        db.update(mainList);
+                                        myAdapter.notifyDataSetChanged();
+                            }
+                        })
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                dialog.cancel();
+                            }
+                        });
+        // create alert dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
 
     }
 

@@ -29,14 +29,38 @@ public class GroceryListArrayAdapter extends ArrayAdapter<Item> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        View v = convertView;
-        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        v = inflater.inflate(R.layout.grocery_list_items_view, null);
-        TextView textView = (TextView) v.findViewById(R.id.textView);
-        CheckBox checkBoxView = (CheckBox) v.findViewById(R.id.chk_box);
-        textView.setText(items.get(position).getName());
-        checkBoxView.setActivated(items.get(position).isChecked);
-        return v;
+        ViewItemHolder viewHolder = null;
 
+        if(convertView!=null)
+        {
+            viewHolder = (ViewItemHolder) convertView.getTag();
+        }else
+        {
+            convertView = View.inflate(getContext(), R.layout.grocery_list_items_view, null);
+
+            CheckBox listItemCheckbox = (CheckBox) convertView.findViewById(R.id.chk_box);
+
+            TextView quantity = (TextView) convertView.findViewById(R.id.quantity);
+
+
+            TextView listItemText = (TextView) convertView.findViewById(R.id.textView);
+
+            viewHolder = new ViewItemHolder(convertView);
+
+            viewHolder.setItemCheckbox(listItemCheckbox);
+
+            viewHolder.setItemQuantity(quantity);
+
+            viewHolder.setItemTextView(listItemText);
+
+            convertView.setTag(viewHolder);
+        }
+
+        Item item = items.get(position);
+        viewHolder.getItemCheckbox().setChecked(item.isChecked());
+        viewHolder.getItemTextView().setText(item.getName());
+        viewHolder.getItemQuantity().setText(String.valueOf(item.getQuantity()));
+
+        return convertView;
     }
 }
