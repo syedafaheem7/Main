@@ -3,7 +3,7 @@
 
     <item
     android:id="@+id/removePopUp"
-    android:title="Remove Item"
+    android:title="Rename Item"
     />
 
     <item
