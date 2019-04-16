@@ -34,10 +34,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         gridView = findViewById(R.id.listOfLists);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setCustomView(R.layout.action_bar);
-        actionBar.setDisplayOptions(R.layout.action_bar);
-        actionBar.setDisplayHomeAsUpEnabled(false);
         db = new dbHelper(context);
         mainList = db.getData();
         if(mainList == null) mainList = new ListOfLists();
@@ -73,14 +69,6 @@ public class MainActivity extends AppCompatActivity {
                 }
         });
 
-        FloatingActionButton fab= findViewById(R.id.deleteItemButton);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                removeList(listofListstoViewAdapter);
-
-            }
-        });
     }
 
 
