@@ -22,6 +22,8 @@ public class GroceryListArrayAdapter extends ArrayAdapter<Item> {
 
     GroceryList items;
     dbHelper db= new dbHelper(getContext());
+    ListOfLists lol = db.getData();
+
 
     public GroceryListArrayAdapter(Context context, GroceryList items) {
         super(context, R.layout.grocery_list_items_view, items);
@@ -123,7 +125,6 @@ public class GroceryListArrayAdapter extends ArrayAdapter<Item> {
                             public void onClick(DialogInterface dialog, int id) {
                             String stringQuant =   userInput.getText().toString();
                                 item.setQuantity(Integer.parseInt(stringQuant));
-                                ListOfLists lol = db.getData();
                                 lol.removeGroceryList(position);
                                 lol.add(position, items);
                                 db.update(lol);
