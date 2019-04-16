@@ -1,12 +1,15 @@
 package edu.qc.seclass.glm;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -31,12 +34,16 @@ public class ListOfListArrayAdapter extends ArrayAdapter<GroceryList> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
+        dbHelper db = new dbHelper(getContext());
+        mainList = db.getData();
+
         View v = convertView;
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         v = inflater.inflate(R.layout.list_of_lists_items_view, null);
         TextView textView = (TextView) v.findViewById(R.id.textView);
         ImageView imageView = (ImageView) v.findViewById(R.id.imageView);
         final  ImageView elipses = (ImageView) v.findViewById(R.id.more);
+        final GroceryList gl = mainList.get(position);
 
 //        CheckBox imageView = (CheckBox) v.findViewById(R.id.chk_box);
         textView.setText(mainList.get(position).getName());
@@ -47,13 +54,13 @@ public class ListOfListArrayAdapter extends ArrayAdapter<GroceryList> {
             @Override
             public void onClick(View v) {
                 PopupMenu pm = new PopupMenu(getContext(), elipses);
-                pm.getMenuInflater().inflate(R.menu.more, pm.getMenu());
+                pm.getMenuInflater().inflate(R.menu.lol_more, pm.getMenu());
                 pm.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()){
-                            case R.id.changeQuant:
-                                Log.d("changeQuant", "quantt");
+                            case R.id.rename:
+                                renameList(gl);
 
                             case R.id.removePopUp:
                                 Log.d("remove", "remove");
@@ -69,5 +76,34 @@ public class ListOfListArrayAdapter extends ArrayAdapter<GroceryList> {
 
     }
 
+    private void renameList(final GroceryList gl) {
+        LayoutInflater li = LayoutInflater.from(getContext());
+        View promptsView = li.inflate(R.layout.rename, null);
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                getContext());
+
+        // set prompts.xml to alertdialog builder
+        alertDialogBuilder.setView(promptsView);
+        final EditText userInput = (EditText) promptsView.findViewById(R.id.quantityInpuuttt);
+
+        alertDialogBuilder
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        String stringQuant = userInput.getText().toString();
+                        gl.renameList(stringQuant);
+                        notifyDataSetChanged();
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        alertDialog.show();
+    }
 }
 
