@@ -86,8 +86,7 @@ public class GroceryListArrayAdapter extends ArrayAdapter<Item> {
                     public boolean onMenuItemClick(MenuItem item) {
                        switch (item.getItemId()){
                            case R.id.changeQuant:
-                               Log.d("quant", "quant");
-
+                                changeQuantity();
                            case R.id.removePopUp:
                                Log.d("remove", "remove");
                        }
@@ -100,5 +99,8 @@ public class GroceryListArrayAdapter extends ArrayAdapter<Item> {
 
 
         return convertView;
+    }
+
+    private void changeQuantity( ) {
     }
 }
