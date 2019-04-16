@@ -92,7 +92,7 @@ public class GroceryListArrayAdapter extends ArrayAdapter<Item> {
                            case R.id.changeQuant:
                                 changeQuantity(item, position);
                            case R.id.removePopUp:
-                               Log.d("remove", "remove");
+                               renameList(item, position);
                        }
                         return true;
                     }
@@ -142,6 +142,39 @@ public class GroceryListArrayAdapter extends ArrayAdapter<Item> {
         AlertDialog alertDialog = alertDialogBuilder.create();
 
         // show it
+        alertDialog.show();
+    }
+
+    private void renameList(final Item item, final int position) {
+        LayoutInflater li = LayoutInflater.from(getContext());
+        View promptsView = li.inflate(R.layout.rename, null);
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                getContext());
+
+        // set prompts.xml to alertdialog builder
+        alertDialogBuilder.setView(promptsView);
+        final EditText userInput = (EditText) promptsView.findViewById(R.id.quantityInpuuttt);
+
+        alertDialogBuilder
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        String stringQuant = userInput.getText().toString();
+                        item.setName(stringQuant);
+                        lol.removeGroceryList(position);
+                        lol.add(position, items);
+                        db.update(lol);
+                        notifyDataSetChanged();
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
         alertDialog.show();
     }
 }
