@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -137,8 +138,6 @@ public class gListActivity extends AppCompatActivity {
                 myAdapter.notifyDataSetChanged();
             }
         });
-
-
     }
 
     public void addList(final GroceryListArrayAdapter myAdapter){
