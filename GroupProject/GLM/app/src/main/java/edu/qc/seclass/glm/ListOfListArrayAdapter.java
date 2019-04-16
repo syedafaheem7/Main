@@ -18,11 +18,13 @@ import java.util.ArrayList;
 
 public class ListOfListArrayAdapter extends ArrayAdapter<GroceryList> {
 
-    ArrayList<GroceryList> mainList = new ArrayList<>();
+    final dbHelper db;
+    ListOfLists mainList;
 
     public ListOfListArrayAdapter(Context context, ListOfLists mainList) {
         super(context, R.layout.list_of_lists_items_view,  mainList);
         this.mainList = mainList;
+        db = new dbHelper(getContext());
     }
 
     @Override
@@ -32,10 +34,9 @@ public class ListOfListArrayAdapter extends ArrayAdapter<GroceryList> {
 
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
-        dbHelper db = new dbHelper(getContext());
-        mainList = db.getData();
+
 
         View v = convertView;
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -60,10 +61,10 @@ public class ListOfListArrayAdapter extends ArrayAdapter<GroceryList> {
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()){
                             case R.id.rename:
-                                renameList(gl);
+                                renameList(position, gl);
 
                             case R.id.removePopUp:
-                                Log.d("remove", "remove");
+                                mainList.removeGroceryList();
                         }
                         return true;
                     }
@@ -76,7 +77,7 @@ public class ListOfListArrayAdapter extends ArrayAdapter<GroceryList> {
 
     }
 
-    private void renameList(final GroceryList gl) {
+    private void renameList(final int position, final GroceryList gl) {
         LayoutInflater li = LayoutInflater.from(getContext());
         View promptsView = li.inflate(R.layout.rename, null);
 
@@ -93,6 +94,9 @@ public class ListOfListArrayAdapter extends ArrayAdapter<GroceryList> {
                     public void onClick(DialogInterface dialog, int id) {
                         String stringQuant = userInput.getText().toString();
                         gl.renameList(stringQuant);
+                        mainList.removeGroceryList(position);
+                        mainList.add(position, gl);
+                        db.update( mainList);
                         notifyDataSetChanged();
                     }
                 })
