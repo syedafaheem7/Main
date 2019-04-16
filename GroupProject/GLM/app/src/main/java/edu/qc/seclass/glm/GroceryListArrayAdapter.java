@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 public class GroceryListArrayAdapter extends ArrayAdapter<Item> {
 
-    ArrayList<Item> items = new ArrayList<>();
+    GroceryList items;
     dbHelper db= new dbHelper(getContext());
 
     public GroceryListArrayAdapter(Context context, GroceryList items) {
@@ -35,7 +35,7 @@ public class GroceryListArrayAdapter extends ArrayAdapter<Item> {
 
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
 
         ViewItemHolder viewHolder = null;
 
@@ -88,7 +88,7 @@ public class GroceryListArrayAdapter extends ArrayAdapter<Item> {
                     public boolean onMenuItemClick(MenuItem itm) {
                        switch (itm.getItemId()){
                            case R.id.changeQuant:
-                                changeQuantity(item);
+                                changeQuantity(item, position);
                            case R.id.removePopUp:
                                Log.d("remove", "remove");
                        }
@@ -103,7 +103,7 @@ public class GroceryListArrayAdapter extends ArrayAdapter<Item> {
         return convertView;
     }
 
-    private void changeQuantity(final Item item) {
+    private void changeQuantity(final Item item, final int position) {
         LayoutInflater li = LayoutInflater.from(getContext());
         View promptsView = li.inflate(R.layout.rename, null);
 
@@ -123,6 +123,10 @@ public class GroceryListArrayAdapter extends ArrayAdapter<Item> {
                             public void onClick(DialogInterface dialog, int id) {
                             String stringQuant =   userInput.getText().toString();
                                 item.setQuantity(Integer.parseInt(stringQuant));
+                                ListOfLists lol = db.getData();
+                                lol.removeGroceryList(position);
+                                lol.add(position, items);
+                                db.update(lol);
                                 notifyDataSetChanged();
                             }
                         })
