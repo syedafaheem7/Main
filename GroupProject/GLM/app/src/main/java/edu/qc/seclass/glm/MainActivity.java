@@ -49,14 +49,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        FloatingActionButton dbfloatingActionButton= findViewById(R.id.showDB);
-        dbfloatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent dbmanager = new Intent(context, AndroidDatabaseManager.class);
-                startActivity(dbmanager);
-            }
-        });
 
 
         FloatingActionButton floatingActionButton= findViewById(R.id.addItemButton);

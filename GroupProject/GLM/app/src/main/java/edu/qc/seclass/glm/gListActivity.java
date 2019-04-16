@@ -15,13 +15,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 
 import edu.qc.seclass.glm.dbHelper;
@@ -144,11 +149,21 @@ public class gListActivity extends AppCompatActivity {
         LayoutInflater li = LayoutInflater.from(context);
         View promptsView = li.inflate(R.layout.add_item_prompt, null);
 
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 context);
 
         // set prompts.xml to alertdialog builder
         alertDialogBuilder.setView(promptsView);
+        final Spinner itemTypeSpinner = promptsView.findViewById(R.id.nameTypeInput);
+        ArrayList<String>  itemTypes= db.getItems();
+        Log.d("itm", itemTypes.toString());
+        ArrayAdapter<String> adapter;
+        adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, itemTypes);
+        Log.d("count", Integer.toString(adapter.getCount()));
+
+        itemTypeSpinner.setAdapter(adapter);
+
+        final EditText itemTypeInput = promptsView.findViewById(R.id.WriteItemType);
 
         final EditText userInput = (EditText) promptsView
                 .findViewById(R.id.nameInput);
@@ -162,7 +177,13 @@ public class gListActivity extends AppCompatActivity {
                 .setPositiveButton("OK",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                Item item = new Item("Sample Type", userInput.getText().toString());
+                                String type;
+                                if(itemTypeInput.getText().toString() == "") type  = itemTypeSpinner.getSelectedItem().toString();
+                                else {
+                                    type = itemTypeInput.getText().toString();
+                                    db.insertItem(type);
+                                }
+                                Item item = new Item(type, userInput.getText().toString());
                                 String quantityStirng = quantity.getText().toString();
                                 item.setQuantity(Integer.parseInt(quantityStirng));
                                 myAdapter.add(item);

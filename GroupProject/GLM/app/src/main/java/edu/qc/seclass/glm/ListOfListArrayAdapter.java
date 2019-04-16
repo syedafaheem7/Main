@@ -36,8 +36,6 @@ public class ListOfListArrayAdapter extends ArrayAdapter<GroceryList> {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
-
-
         View v = convertView;
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         v = inflater.inflate(R.layout.list_of_lists_items_view, null);
@@ -63,8 +61,10 @@ public class ListOfListArrayAdapter extends ArrayAdapter<GroceryList> {
                             case R.id.rename:
                                 renameList(position, gl);
 
-                            case R.id.removePopUp:
-                                mainList.removeGroceryList();
+                            case R.id.remove:
+                                mainList.removeGroceryList(position);
+                                db.update(mainList);
+                                notifyDataSetChanged();
                         }
                         return true;
                     }
@@ -96,7 +96,7 @@ public class ListOfListArrayAdapter extends ArrayAdapter<GroceryList> {
                         gl.renameList(stringQuant);
                         mainList.removeGroceryList(position);
                         mainList.add(position, gl);
-                        db.update( mainList);
+                        db.update(mainList);
                         notifyDataSetChanged();
                     }
                 })

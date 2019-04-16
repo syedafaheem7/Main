@@ -7,6 +7,35 @@
     android:padding="10dp" >
 
     <TextView
+        android:id="@+id/textView0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="chooose Item type : "
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <android.support.v7.widget.AppCompatSpinner
+        android:id="@+id/nameTypeInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        <requestFocus />
+
+    </android.support.v7.widget.AppCompatSpinner>
+
+    <TextView
+        android:id="@+id/writeItemTypeLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter Item type, if not in list : "
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <EditText
+        android:id="@+id/WriteItemType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <requestFocus />
+
+    <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
