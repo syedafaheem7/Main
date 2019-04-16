@@ -34,13 +34,14 @@ public class GroceryListArrayAdapter extends ArrayAdapter<Item> {
         if(convertView!=null)
         {
             viewHolder = (ViewItemHolder) convertView.getTag();
-        }else
-        {
+        }
             convertView = View.inflate(getContext(), R.layout.grocery_list_items_view, null);
 
             CheckBox listItemCheckbox = (CheckBox) convertView.findViewById(R.id.chk_box);
 
             TextView quantity = (TextView) convertView.findViewById(R.id.quantity);
+
+            ImageView elipses = (ImageView) convertView.findViewById(R.id.more);
 
 
             TextView listItemText = (TextView) convertView.findViewById(R.id.textView);
@@ -54,12 +55,27 @@ public class GroceryListArrayAdapter extends ArrayAdapter<Item> {
             viewHolder.setItemTextView(listItemText);
 
             convertView.setTag(viewHolder);
-        }
 
-        Item item = items.get(position);
+
+        final Item item = items.get(position);
         viewHolder.getItemCheckbox().setChecked(item.isChecked());
         viewHolder.getItemTextView().setText(item.getName());
         viewHolder.getItemQuantity().setText(String.valueOf(item.getQuantity()));
+
+        listItemCheckbox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                item.setChecked(!item.isChecked);
+            }
+        });
+
+        elipses.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
 
         return convertView;
     }

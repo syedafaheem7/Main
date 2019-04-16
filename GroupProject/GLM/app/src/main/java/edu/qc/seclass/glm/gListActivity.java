@@ -71,7 +71,7 @@ public class gListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int itemIndex, long l) {
                 Object itemObject = adapterView.getAdapter().getItem(itemIndex);
-
+                Log.d("ghfjgdhfgd","hgjdhrsfh");
                 // Translate the selected item to DTO object.
                 Item itemD = (Item)itemObject;
 
@@ -82,11 +82,13 @@ public class gListActivity extends AppCompatActivity {
                 if(itemCheckbox.isChecked())
                 {
                     itemCheckbox.setChecked(false);
-                    itemD.setChecked(false);
+                    gList.get(itemIndex).setChecked(false);
+                    //itemD.setChecked(false);
                 }else
                 {
                     itemCheckbox.setChecked(true);
-                    itemD.setChecked(true);
+                    gList.get(itemIndex).setChecked(true);
+                    //itemD.setChecked(true);
                 }
                 myAdapter.notifyDataSetChanged();
 
@@ -103,17 +105,8 @@ public class gListActivity extends AppCompatActivity {
             }
         });
 
-        FloatingActionButton delete= findViewById(R.id.deleteItemButton);
-        delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                removeList(myAdapter);
-                myAdapter.notifyDataSetChanged();
 
-            }
-        });
-
-        CheckBox mCheckbox = (CheckBox) actionBar.getCustomView().findViewById(R.id.check_all);
+        final CheckBox mCheckbox = (CheckBox) actionBar.getCustomView().findViewById(R.id.check_all);
         mCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -133,6 +126,15 @@ public class gListActivity extends AppCompatActivity {
                     }
                     myAdapter.notifyDataSetChanged();
                 }
+            }
+        });
+
+        FloatingActionButton delete= findViewById(R.id.deleteItemButton);
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeList(myAdapter, mCheckbox);
+                myAdapter.notifyDataSetChanged();
             }
         });
 
@@ -186,7 +188,7 @@ public class gListActivity extends AppCompatActivity {
     }
 
 
-    public void removeList(final GroceryListArrayAdapter myAdapter){
+    public void removeList(final GroceryListArrayAdapter myAdapter, final CheckBox checkBox){
         LayoutInflater li = LayoutInflater.from(context);
         View promptsView = li.inflate(R.layout.remove_item_prompt, null);
 
@@ -211,6 +213,7 @@ public class gListActivity extends AppCompatActivity {
                                 mainList.removeGroceryList(position);
                                 mainList.add(position, gList);
                                 db.update(mainList);
+                                checkBox.setChecked(false);
                             }
     })
                 .setNegativeButton("Cancel",
