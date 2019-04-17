@@ -9,10 +9,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+
+import java.util.Iterator;
 
 public class ListOfListArrayAdapter extends ArrayAdapter<GroceryList> {
 
@@ -60,10 +63,7 @@ public class ListOfListArrayAdapter extends ArrayAdapter<GroceryList> {
                                 renameList(position, gl);
                                 break;
                             case R.id.remove:
-                                Log.d("Called remove", "Called Remove");
-                                mainList.removeGroceryList(position);
-                                db.update(mainList);
-                                notifyDataSetChanged();
+                                removeList(position, gl);
                         }
                         return true;
                     }
@@ -73,6 +73,43 @@ public class ListOfListArrayAdapter extends ArrayAdapter<GroceryList> {
         });
 
         return v;
+
+    }
+
+
+    public void removeList(final int position, final GroceryList gl){
+        LayoutInflater li = LayoutInflater.from(getContext());
+        View promptsView = li.inflate(R.layout.remove_item_prompt, null);
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                getContext());
+
+        // set prompts.xml to alertdialog builder
+        alertDialogBuilder.setView(promptsView);
+
+        alertDialogBuilder
+                .setCancelable(false)
+                .setPositiveButton("OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                mainList.removeGroceryList(position);
+                                db.update(mainList);
+                                mainList.add(position, gl);
+                                db.update(mainList);
+                                notifyDataSetChanged();
+                            }
+                        })
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                dialog.cancel();
+                            }
+                        });
+        // create alert dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
 
     }
 

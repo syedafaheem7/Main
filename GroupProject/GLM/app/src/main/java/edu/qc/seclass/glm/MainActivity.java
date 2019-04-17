@@ -97,8 +97,8 @@ public class MainActivity extends AppCompatActivity {
                              //   openGList(myAdapter.getPosition(temp));
                                 myAdapter.add(temp);
                                 for(GroceryList gl: mainList) Log.d("Grocery list", gl.getName());
-                                if(mainList.size() == 1) db.insertData(mainList);
-                                else db.update(mainList);
+//                                if(mainList.size() == 1) db.insertData(mainList);
+                                 db.update(mainList);
                             }
                         })
                 .setNegativeButton("Cancel",

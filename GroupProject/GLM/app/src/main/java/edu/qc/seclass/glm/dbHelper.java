@@ -46,6 +46,7 @@ public class dbHelper extends SQLiteOpenHelper {
         db.execSQL(createTable);
         createTable = "CREATE TABLE "+ITEM_TYPE_TABLE_NAME + " ("+IT_ID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+IT_NAME+" VARCHAR(250));";
         db.execSQL(createTable);
+        insertData(new ListOfLists());
         ContentValues cv = new ContentValues();
         cv.put(dbHelper.IT_NAME, "Beverages");
         db.insert(ITEM_TYPE_TABLE_NAME, null, cv);
