@@ -95,9 +95,8 @@ public class ListOfListArrayAdapter extends ArrayAdapter<GroceryList> {
                 .setPositiveButton("OK",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
+                                for(GroceryList gl: mainList) Log.d("Before", gl.getName());
                                 mainList.removeGroceryList(position);
-                                db.update(mainList);
-                                mainList.add(position, gl);
                                 db.update(mainList);
                                 notifyDataSetChanged();
                             }

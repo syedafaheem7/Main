@@ -25,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -156,11 +157,13 @@ public class gListActivity extends AppCompatActivity {
         // set prompts.xml to alertdialog builder
         alertDialogBuilder.setView(promptsView);
         final Spinner itemTypeSpinner = promptsView.findViewById(R.id.nameTypeInput);
-        ArrayList<String> itemTypes = db.getItems();
+        final ArrayList<String> itemTypes = db.getItems();
         ArrayAdapter<String> adapter;
         adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, itemTypes);
 
         itemTypeSpinner.setAdapter(adapter);
+
+        final TextView ItemTypeInputLabel = promptsView.findViewById(R.id.writeItemTypeLabel);
 
         final EditText itemTypeInput = promptsView.findViewById(R.id.WriteItemType);
 
@@ -177,12 +180,19 @@ public class gListActivity extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 String type;
-                                if (itemTypeInput.getText().toString() == "")
-                                    type = itemTypeSpinner.getSelectedItem().toString();
-                                else {
+                                if(itemTypeInput.getVisibility() == View.VISIBLE){
                                     type = itemTypeInput.getText().toString();
                                     db.insertItem(type);
                                 }
+                                else{
+                                    type = itemTypeSpinner.getSelectedItem().toString();
+                                }
+//                                if (itemTypeInput.getText().toString() == "")
+//                                    type = itemTypeSpinner.getSelectedItem().toString();
+//                                else {
+//                                    type = itemTypeInput.getText().toString();
+//                                    db.insertItem(type);
+//                                }
                                 Item item = new Item(type, userInput.getText().toString());
                                 String quantityStirng = quantity.getText().toString();
                                 item.setQuantity(Integer.parseInt(quantityStirng));
@@ -202,6 +212,26 @@ public class gListActivity extends AppCompatActivity {
 
         // create alert dialog
         final AlertDialog alertDialog = alertDialogBuilder.create();
+
+        itemTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                if(itemTypes.get(position).contentEquals("Other")) {
+                    itemTypeInput.setVisibility(View.VISIBLE);
+                    ItemTypeInputLabel.setVisibility(View.VISIBLE);
+                }
+                else{
+                    ItemTypeInputLabel.setVisibility(View.INVISIBLE);
+                    itemTypeInput.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+
+        });
 
         quantity.addTextChangedListener(new TextWatcher() {
             @Override
