@@ -187,11 +187,6 @@ public class gListActivity extends AppCompatActivity {
                                 else{
                                     type = itemTypeSpinner.getSelectedItem().toString();
                                 }
-//                                if (itemTypeInput.getText().toString() == "")
-//                                    type = itemTypeSpinner.getSelectedItem().toString();
-//                                else {
-//                                    type = itemTypeInput.getText().toString();
-//                                    db.insertItem(type);
 //                                }
                                 Item item = new Item(type, userInput.getText().toString());
                                 String quantityStirng = quantity.getText().toString();
@@ -268,6 +263,27 @@ public class gListActivity extends AppCompatActivity {
                             .setEnabled(false);
                 }
                 else ((AlertDialog) alertDialog).getButton(AlertDialog.BUTTON_POSITIVE)
+                        .setEnabled(true);
+            }
+
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        itemTypeInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (itemTypeInput.getText().toString().toLowerCase().contentEquals("other")) {
+                    Toast.makeText(context, "'Other' Is Reserved, Choose Or Enter Another Item Type", Toast.LENGTH_SHORT).show();
+                    ((AlertDialog) alertDialog).getButton(AlertDialog.BUTTON_POSITIVE)
+                            .setEnabled(false);
+                } else ((AlertDialog) alertDialog).getButton(AlertDialog.BUTTON_POSITIVE)
                         .setEnabled(true);
             }
 

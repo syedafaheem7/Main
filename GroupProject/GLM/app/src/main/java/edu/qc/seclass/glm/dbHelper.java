@@ -153,6 +153,7 @@ public class dbHelper extends SQLiteOpenHelper {
         while(data.moveToNext()){
             items.add(data.getString(data.getColumnIndex(dbHelper.IT_NAME)));
         }
+        items.add("Other");
         return items;
     }
 
