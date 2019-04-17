@@ -111,10 +111,6 @@ public class MainActivity extends AppCompatActivity {
         // create alert dialog
         final AlertDialog alertDialog = alertDialogBuilder.create();
 
-//        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
-//                .setEnabled(false);
-
-
         userInput.addTextChangedListener(new TextWatcher(){
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

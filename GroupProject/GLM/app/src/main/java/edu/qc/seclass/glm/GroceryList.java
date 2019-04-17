@@ -21,6 +21,13 @@ public class GroceryList extends ArrayList<Item>{
         listName = n;
     }
 
+    public boolean contains(String name){
+        for(Item gl: this) {
+            if(gl.getName().contentEquals(name)) return true;
+        }
+        return false;
+    }
+
     public void clearAllChecks(){}
 
     public void removeItem(Item itm){

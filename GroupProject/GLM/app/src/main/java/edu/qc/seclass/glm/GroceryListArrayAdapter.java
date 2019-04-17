@@ -3,6 +3,8 @@ package edu.qc.seclass.glm;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class GroceryListArrayAdapter extends ArrayAdapter<Item> {
 
@@ -136,10 +139,49 @@ public class GroceryListArrayAdapter extends ArrayAdapter<Item> {
                         });
 
         // create alert dialog
-        AlertDialog alertDialog = alertDialogBuilder.create();
+        final  AlertDialog alertDialog = alertDialogBuilder.create();
+
+        userInput.addTextChangedListener(new TextWatcher(){
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if ( !isInteger(userInput.getText().toString()) ||Integer.parseInt(userInput.getText().toString())< 0 ) {
+                    Toast.makeText(getContext(), "Quantity must be a positive integer", Toast.LENGTH_SHORT).show();
+                    ((AlertDialog) alertDialog).getButton(AlertDialog.BUTTON_POSITIVE)
+                            .setEnabled(false);
+                }
+                else ((AlertDialog) alertDialog).getButton(AlertDialog.BUTTON_POSITIVE)
+                        .setEnabled(true);
+            }
+
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
 
         // show it
         alertDialog.show();
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+    }
+
+    public static boolean isInteger(String s) {
+        boolean isValidInteger = false;
+        try {
+            Integer.parseInt(s);
+
+            // s is a valid integer
+
+            isValidInteger = true;
+        } catch (NumberFormatException ex) {
+            // s is not an integer
+        }
+
+        return isValidInteger;
     }
 
     private void renameList(final Item item, final int position) {
@@ -170,8 +212,31 @@ public class GroceryListArrayAdapter extends ArrayAdapter<Item> {
                         dialog.cancel();
                     }
                 });
-        AlertDialog alertDialog = alertDialogBuilder.create();
+         final  AlertDialog alertDialog = alertDialogBuilder.create();
+
+        userInput.addTextChangedListener(new TextWatcher(){
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (items.contains(userInput.getText().toString()) || userInput.getText().length() == 0) {
+                    Toast.makeText(getContext(), "This Item Already Exists", Toast.LENGTH_SHORT).show();
+                    ((AlertDialog) alertDialog).getButton(AlertDialog.BUTTON_POSITIVE)
+                            .setEnabled(false);
+                }
+                else ((AlertDialog) alertDialog).getButton(AlertDialog.BUTTON_POSITIVE)
+                        .setEnabled(true);
+            }
+
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         alertDialog.show();
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
     }
 }
