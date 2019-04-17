@@ -124,6 +124,8 @@ public class dbHelper extends SQLiteOpenHelper {
     public void insertData(ListOfLists gl){
       byte[] data = makeByte(gl);
        SQLiteDatabase db = this.getWritableDatabase();
+       String delete = "DELETE FROM " + TABLE_NAME + ";";
+       db.execSQL(delete);
         ContentValues cvs = new ContentValues();
         //cvs.put(dbHelper.TABLE_NAME,  name);
         cvs.put(dbHelper.GL_ID, 2);

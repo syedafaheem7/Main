@@ -3,6 +3,8 @@ package edu.qc.seclass.glm;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -14,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Iterator;
 
@@ -143,9 +146,41 @@ public class ListOfListArrayAdapter extends ArrayAdapter<GroceryList> {
                         dialog.cancel();
                     }
                 });
-        AlertDialog alertDialog = alertDialogBuilder.create();
+        final AlertDialog alertDialog = alertDialogBuilder.create();
 
+//        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+//                .setEnabled(false);
+
+
+        userInput.addTextChangedListener(new TextWatcher(){
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (mainList.contains(userInput.getText().toString())) {
+                    Toast.makeText(getContext(), "This List Already Exists", Toast.LENGTH_SHORT).show();
+                    ((AlertDialog) alertDialog).getButton(AlertDialog.BUTTON_POSITIVE)
+                            .setEnabled(false);
+                }
+                else if(userInput.getText().length() == 0){
+                    ((AlertDialog) alertDialog).getButton(AlertDialog.BUTTON_POSITIVE)
+                            .setEnabled(false);
+                }
+                else ((AlertDialog) alertDialog).getButton(AlertDialog.BUTTON_POSITIVE)
+                        .setEnabled(true);
+            }
+
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        // show it
         alertDialog.show();
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
     }
 }
 
