@@ -11,6 +11,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import java.util.Iterator;
 
@@ -75,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         LayoutInflater li = LayoutInflater.from(context);
         View promptsView = li.inflate(R.layout.g_list_name_prompt, null);
 
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 context);
 
         // set prompts.xml to alertdialog builder
@@ -83,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
         final EditText userInput = (EditText) promptsView
                 .findViewById(R.id.nameInput);
+
 
         alertDialogBuilder
                 .setCancelable(false)
@@ -105,10 +109,37 @@ public class MainActivity extends AppCompatActivity {
                         });
 
         // create alert dialog
-        AlertDialog alertDialog = alertDialogBuilder.create();
+        final AlertDialog alertDialog = alertDialogBuilder.create();
+
+//        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+//                .setEnabled(false);
+
+
+        userInput.addTextChangedListener(new TextWatcher(){
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (mainList.contains(userInput.getText().toString()) || userInput.getText().length() == 0) {
+                    Toast.makeText(context, "This List Already Exists", Toast.LENGTH_SHORT).show();
+                    ((AlertDialog) alertDialog).getButton(AlertDialog.BUTTON_POSITIVE)
+                            .setEnabled(false);
+                }
+                else ((AlertDialog) alertDialog).getButton(AlertDialog.BUTTON_POSITIVE)
+                        .setEnabled(true);
+            }
+
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         // show it
         alertDialog.show();
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
 
 
     }

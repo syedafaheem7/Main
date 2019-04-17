@@ -1,5 +1,6 @@
 package edu.qc.seclass.glm;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,13 @@ public class ListOfLists extends ArrayList<GroceryList> {
     public void removeList(ArrayList<GroceryList> gl) {
         this.remove(gl);
 
+    }
+
+    public boolean contains(String name){
+        for(GroceryList gl: this) {
+            if(gl.getName().contentEquals(name)) return true;
+        }
+        return false;
     }
 
     public void removeGroceryList(int gl) {
