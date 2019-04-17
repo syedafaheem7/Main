@@ -14,8 +14,6 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
 public class ListOfListArrayAdapter extends ArrayAdapter<GroceryList> {
 
     final dbHelper db;
@@ -60,8 +58,9 @@ public class ListOfListArrayAdapter extends ArrayAdapter<GroceryList> {
                         switch (item.getItemId()){
                             case R.id.rename:
                                 renameList(position, gl);
-
+                                break;
                             case R.id.remove:
+                                Log.d("Called remove", "Called Remove");
                                 mainList.removeGroceryList(position);
                                 db.update(mainList);
                                 notifyDataSetChanged();
@@ -79,21 +78,23 @@ public class ListOfListArrayAdapter extends ArrayAdapter<GroceryList> {
 
     private void renameList(final int position, final GroceryList gl) {
         LayoutInflater li = LayoutInflater.from(getContext());
-        View promptsView = li.inflate(R.layout.rename, null);
+        View promptsView = li.inflate(R.layout.rename_popup, null);
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 getContext());
 
         // set prompts.xml to alertdialog builder
         alertDialogBuilder.setView(promptsView);
-        final EditText userInput = (EditText) promptsView.findViewById(R.id.quantityInpuuttt);
+        final EditText userInput = (EditText) promptsView.findViewById(R.id.newName);
 
         alertDialogBuilder
                 .setCancelable(false)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         String stringQuant = userInput.getText().toString();
+                        Log.d("old name", gl.getName());
                         gl.renameList(stringQuant);
+                        Log.d("new name", gl.getName());
                         mainList.removeGroceryList(position);
                         mainList.add(position, gl);
                         db.update(mainList);

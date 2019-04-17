@@ -160,4 +160,5 @@ public class dbHelper extends SQLiteOpenHelper {
         db.insert(ITEM_TYPE_TABLE_NAME, null, cv);
     }
 
+
 }

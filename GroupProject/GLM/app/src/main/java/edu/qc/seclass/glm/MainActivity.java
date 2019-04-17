@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         final ListOfListArrayAdapter listofListstoViewAdapter= new ListOfListArrayAdapter(context, mainList);
         gridView.setAdapter(listofListstoViewAdapter);
-       gridView.setClickable(true);
+        gridView.setClickable(true);
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -48,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
                 openGList(position);
             }
         });
-
 
 
         FloatingActionButton floatingActionButton= findViewById(R.id.addItemButton);
@@ -92,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int id) {
                                 GroceryList temp = new GroceryList(userInput.getText().toString());
                                 myAdapter.add(temp);
+                                for(GroceryList gl: mainList) Log.d("Grocery list", gl.getName());
                                 if(mainList.size() == 1) db.insertData(mainList);
                                 else db.update(mainList);
 //                                openGList(myAdapter.getPosition(temp));

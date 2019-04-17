@@ -3,7 +3,6 @@ package edu.qc.seclass.glm;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,9 +13,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.ArrayList;
 
 public class GroceryListArrayAdapter extends ArrayAdapter<Item> {
 
@@ -91,6 +87,7 @@ public class GroceryListArrayAdapter extends ArrayAdapter<Item> {
                        switch (itm.getItemId()){
                            case R.id.changeQuant:
                                 changeQuantity(item, position);
+                                break;
                            case R.id.removePopUp:
                                renameList(item, position);
                        }
@@ -107,7 +104,7 @@ public class GroceryListArrayAdapter extends ArrayAdapter<Item> {
 
     private void changeQuantity(final Item item, final int position) {
         LayoutInflater li = LayoutInflater.from(getContext());
-        View promptsView = li.inflate(R.layout.rename, null);
+        View promptsView = li.inflate(R.layout.change_quanitity_popup, null);
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 getContext());
@@ -147,14 +144,14 @@ public class GroceryListArrayAdapter extends ArrayAdapter<Item> {
 
     private void renameList(final Item item, final int position) {
         LayoutInflater li = LayoutInflater.from(getContext());
-        View promptsView = li.inflate(R.layout.rename, null);
+        View promptsView = li.inflate(R.layout.rename_popup, null);
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 getContext());
 
         // set prompts.xml to alertdialog builder
         alertDialogBuilder.setView(promptsView);
-        final EditText userInput = (EditText) promptsView.findViewById(R.id.quantityInpuuttt);
+        final EditText userInput = (EditText) promptsView.findViewById(R.id.newName);
 
         alertDialogBuilder
                 .setCancelable(false)
