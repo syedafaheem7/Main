@@ -46,7 +46,7 @@ public class dbHelper extends SQLiteOpenHelper {
         db.execSQL(createTable);
         createTable = "CREATE TABLE "+ITEM_TYPE_TABLE_NAME + " ("+IT_ID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+IT_NAME+" VARCHAR(250));";
         db.execSQL(createTable);
-        insertData(new ListOfLists());
+        init(db);
         ContentValues cv = new ContentValues();
         cv.put(dbHelper.IT_NAME, "Beverages");
         db.insert(ITEM_TYPE_TABLE_NAME, null, cv);
@@ -73,6 +73,18 @@ public class dbHelper extends SQLiteOpenHelper {
 
 
     }
+
+    private void init(SQLiteDatabase db){
+        byte[] data = makeByte(new ListOfLists());
+        String delete = "DELETE FROM " + TABLE_NAME + ";";
+        db.execSQL(delete);
+        ContentValues cvs = new ContentValues();
+        //cvs.put(dbHelper.TABLE_NAME,  name);
+        cvs.put(dbHelper.GL_ID, 2);
+        cvs.put(dbHelper.GL_DATA, data);
+        db.insert(dbHelper.TABLE_NAME, null, cvs);
+    }
+
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
